@@ -27,13 +27,13 @@ add_executable(ble_repeater main.cpp
         BLE/BleConnectionTracker.cpp
         CircularBuffer/Debugging.cpp
         Packet/Peer.cpp
+        Packet/Base.cpp
         Packet/PacketBase.cpp
         Packet/Announce.cpp
         Packet/Message.cpp
         Packet/ProtocolProcessor.cpp
         Packet/BinaryReader.cpp
         Packet/BinaryWriter.cpp
-        Packet/ProtocolWriter.cpp
         Packet/PacketPassAlong.cpp
 )
 

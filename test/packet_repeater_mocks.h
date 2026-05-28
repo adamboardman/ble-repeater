@@ -64,6 +64,8 @@ void populate_array_from_string(uint8_t *uint_array, const std::string &str);
 
 void populate_vector_from_string(std::vector<uint8_t> *uint_vector, const std::string &str);
 
+void populate_string_from_string(std::string *str_out, const std::string &str);
+
 void gap_local_bd_addr(bd_addr_t address_buffer);
 
 typedef enum {

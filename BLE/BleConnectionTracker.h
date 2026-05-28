@@ -20,9 +20,9 @@ class BleConnectionTracker {
 public:
     BleConnection &connectionForConnHandle(hci_con_handle_t connection_handle);
 
-    const Message *storeMessageAndReturnIfNew(Message &message);
+    Message *storeMessageAndReturnIfNew(Message &message);
 
-    const PacketPassAlong *storePacketAndReturnIfNew(PacketPassAlong &pass_along);
+    PacketPassAlong *storePacketAndReturnIfNew(PacketPassAlong &pass_along);
 
     Message *messageWithId(const std::string &id);
 
@@ -30,11 +30,11 @@ public:
 
     Peer &checkSenderInPeers(uint64_t sender);
 
-    void enqueueTargetedPacket(const PacketBase *packet, BleConnection *to_connection);
+    void enqueueTargetedPacket(Base *packet, BleConnection *to_connection);
 
-    void enqueueBroadcastPacket(const PacketBase *packet);
+    void enqueueBroadcastPacket(Base *packet);
 
-    void enqueueBroadcastPacket(const PacketBase *packet, BleConnection *from_connection, Peer *from_peer);
+    void enqueueBroadcastPacket(Base *packet, BleConnection *from_connection, Peer *from_peer);
 
     void addAvailablePeer(const bd_addr_t &bt_address, bd_addr_type_t bt_address_type,
                           service_uuid_check_status services, int8_t rssi);
@@ -51,7 +51,7 @@ public:
 
     void printStats();
 
-    bool SendPacketToConnection(const PacketBase &packet, BleConnection &ble_connection);
+    bool SendPacketToConnection(Base &packet, BleConnection &ble_connection);
 
     bool havePacketsToSend();
 
@@ -101,14 +101,14 @@ private:
     //Store of potential connections
     std::map<std::string, BleConnection> available_neighbours{};
     //Store of raw packets to send
-    std::multimap<hci_con_handle_t, std::vector<uint8_t>> raw_packet_to_notify{};
-    std::multimap<hci_con_handle_t, std::vector<uint8_t>> raw_packet_to_write{};
+    std::multimap<hci_con_handle_t, std::vector<uint8_t> > raw_packet_to_notify{};
+    std::multimap<hci_con_handle_t, std::vector<uint8_t> > raw_packet_to_write{};
 
     uint64_t timestamp_offset_ms{};
 
     std::map<hci_con_handle_t, Peer *> handle_peer_map{};
-    std::multimap<const PacketBase *, const BleConnection *> packets_connections_sent_list{};
-    std::multimap<const PacketBase *, const Peer *> packets_peers_sent_list{};
-    std::vector<const PacketBase *> broadcast_packets_to_send_list{};
-    std::multimap<const PacketBase *, BleConnection *> targeted_packets_to_send_list{};
+    std::multimap<Base *, BleConnection *> packets_connections_sent_list{};
+    std::multimap<Base *, Peer *> packets_peers_sent_list{};
+    std::vector<Base *> broadcast_packets_to_send_list{};
+    std::multimap<Base *, BleConnection *> targeted_packets_to_send_list{};
 };

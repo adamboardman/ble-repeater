@@ -10,5 +10,6 @@ enum PacketType {
 enum PacketFlag {
     packet_flag_has_recipient = 0x01,
     packet_flag_has_signature = 0x02,
-    packet_flag_is_compressed = 0x04
+    packet_flag_is_compressed = 0x04,
+    packet_flag_has_route = 0x08
 };

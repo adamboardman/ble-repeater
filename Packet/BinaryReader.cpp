@@ -48,6 +48,10 @@ uint64_t BinaryReader::read_uint64() {
     return ret;
 }
 
+uint16_t BinaryReader::read_remainder_len() {
+    return buffer_size-pos;
+}
+
 const uint8_t *BinaryReader::read_data(const uint16_t len) {
     if (pos + len > buffer_size) {
         return nullptr;

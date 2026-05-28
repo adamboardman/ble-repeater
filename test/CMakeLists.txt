@@ -14,7 +14,7 @@ include_directories(../include ../CircularBuffer)
 add_executable(tests
         ../BLE/BleConnection.cpp
         ../BLE/BleConnectionTracker.cpp
-        ../Packet/ProtocolWriter.cpp
+        ../Packet/Base.cpp
         ../Packet/PacketBase.cpp
         ../Packet/Peer.cpp
         ../Packet/ProtocolProcessor.cpp
@@ -24,9 +24,9 @@ add_executable(tests
         ../Packet/Announce.cpp
         ../Packet/PacketPassAlong.cpp
         pico_pi_mocks.cpp
-        test_bitchat_read.cpp
-        test_ble_connection_tracker.cpp
+        test_ble_smoke_detector.cpp
         test_circular_buffer.cpp
+        test_packet.cpp
 )
 
 target_link_libraries(tests PRIVATE

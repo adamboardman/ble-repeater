@@ -3,11 +3,12 @@
 #include <cstring>
 
 #include "Debugging.h"
-#include "../Packet/ProtocolWriter.h"
 #include "pico_pi_mocks.h"
 
 #include "../Packet/BinaryWriter.h"
 
+class BleConnectionTracker;
+BleConnectionTracker *connection_tracker_ptr=nullptr;
 int lastAddress;
 int last_length_read;
 int last_length_written;
@@ -62,7 +63,7 @@ int i2c_write_blocking(i2c_inst_t *i2c, uint8_t addr, const uint8_t *src, size_t
     for (int i = 0; i < len; i++) {
         if (use_expected_write_data) {
             try {
-                REQUIRE((int) src[i] == (int) mock_expected_write_data.at(mock_expected_write_read_at++));
+                REQUIRE((int)src[i]==(int)mock_expected_write_data.at(mock_expected_write_read_at++));
             } catch (...) {
                 LOG_DEBUG("Attempted to read past mock data [%d] - stick a breakpoint here to track it down", i);
             }
@@ -131,10 +132,21 @@ void populate_array_from_string(uint8_t *uint_array, const std::string &str) {
 
 void populate_vector_from_string(std::vector<uint8_t> *uint_vector, const std::string &str) {
     const uint8_t datalen = str.length() / 2;
+    uint_vector->resize(datalen);
     for (int i = 0, j = 0; i < datalen; i++, j++) {
         uint_vector->at(i) = (str[j] & '@' ? str[j] + 9 : str[j]) << 4;
         j++;
         uint_vector->at(i) |= (str[j] & '@' ? str[j] + 9 : str[j]) & 0xF;
+    }
+}
+
+void populate_string_from_string(std::string *str_out, const std::string &str) {
+    const uint8_t datalen = str.length() / 2;
+    str_out->resize(datalen);
+    for (int i = 0, j = 0; i < datalen; i++, j++) {
+        str_out->at(i) = (str[j] & '@' ? str[j] + 9 : str[j]) << 4;
+        j++;
+        str_out->at(i) |= (str[j] & '@' ? str[j] + 9 : str[j]) & 0xF;
     }
 }
 

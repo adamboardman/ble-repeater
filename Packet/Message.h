@@ -14,6 +14,8 @@ public:
 
     Message(uint8_t ttl, uint64_t timestamp, uint8_t packet_flags, uint64_t sender, uint64_t recipient);
 
+    Message(uint8_t type, uint8_t version, BinaryReader &reader);
+
     void setMessageFlags(uint8_t flags);
 
     [[nodiscard]] bool isRelay() const {
@@ -58,8 +60,6 @@ public:
 
     void setEncryptedContent(const std::string &string);
 
-    void setOriginalSenderNickname(const std::string &string);
-
     void setRecipientNickname(const std::string &string);
 
     void setSenderPeer(Peer *peer);
@@ -77,6 +77,10 @@ public:
     [[nodiscard]] const std::string &getRecipientNickname() const;
 
     [[nodiscard]] Peer *getSenderPeer() const;
+
+    void writePacket(std::vector<uint8_t> &vector) override;
+
+    void writePacketPayload(BinaryWriter &writer) override;
 
 private:
     uint8_t message_flags = 0;

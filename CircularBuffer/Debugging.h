@@ -9,6 +9,7 @@ void printAvailableLogging();
 
 #if defined(DEBUG_BUILD)
 #if (PICO_RP2040 || PICO_RP2350)
+#define ASSERT_DEBUG(...) assert(__VA_ARGS__);
 #define LOG_DEBUG(...) serialLogBuffer.writeF(__VA_ARGS__);
 #define LOG_INFO(...) serialLogBuffer.writeF(__VA_ARGS__);
 #define LOG_WARN(...) serialLogBuffer.writeF(__VA_ARGS__);
@@ -16,6 +17,7 @@ void printAvailableLogging();
 #define LOG_CRIT(...) serialLogBuffer.writeF(__VA_ARGS__);
 #define LOG_TRACE(...) serialLogBuffer.writeF(__VA_ARGS__);
 #else
+#define ASSERT_DEBUG(...) assert(__VA_ARGS__)
 #define LOG_DEBUG(...) printf(__VA_ARGS__)
 #define LOG_INFO(...) printf(__VA_ARGS__)
 #define LOG_WARN(...) printf(__VA_ARGS__)
@@ -24,6 +26,7 @@ void printAvailableLogging();
 #define LOG_TRACE(...) printf(__VA_ARGS__)
 #endif
 #else
+#define ASSERT_DEBUG(...)
 #define LOG_DEBUG(...)
 #define LOG_INFO(...)
 #define LOG_WARN(...)
